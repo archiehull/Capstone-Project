@@ -1,6 +1,7 @@
 ﻿namespace Capstone_Project_441101_2223
 {
     class ProjectManagerMenu : ConsoleMenu
+    //Main Menu - displays editing options when projects are available
     {
         private ProjectManager _manager;
 
@@ -31,6 +32,7 @@
     }
 
     class RemoveProjectsMenu : ConsoleMenu
+    //Lists projects for user to remove - using L / R to identifty the creation of a project
     {
         public ProjectManager _manager;
 
@@ -65,6 +67,7 @@
     }
 
     class LoadFromFileMenu : ConsoleMenu
+    //Load options
     {
         public ProjectManager _manager;
 
@@ -88,6 +91,7 @@
     }
 
     class SelectExistingProjectsMenu : ConsoleMenu
+    //Lists projects for user to edit - using L / R to identifty the creation of a project
     {
         private ProjectManager _manager;
 
@@ -118,6 +122,7 @@
     }
 
     class SelectedProjectsMenu : ConsoleMenu
+    //Project editing options
     {
         private Project _project;
         private ProjectManager _manager;
@@ -140,7 +145,6 @@
             _menuItems.Add(new DisplaySalesMenuItem(_project, _manager));
             _menuItems.Add(new DisplayPurchasesMenu(_project, _manager));
             _menuItems.Add(new DisplayProjectSummaryMenu(_project, _manager));
-            //_menuItems.Add(new RemoveProjectsMenuItem(_project, _manager));
             _menuItems.Add(new ExitMenuItem(this));
         }
 
@@ -148,6 +152,7 @@
     }
 
     class AddTransactionMenu : ConsoleMenu
+    //Add new transaction to existing project
     {
         private Project _project;
         ProjectManager _manager;
@@ -173,6 +178,7 @@
     }
 
     class AddNewProjectMenu : ConsoleMenu
+    //Create new Project
     {
         
         ProjectManager _manager;
@@ -197,6 +203,7 @@
     }
 
     class DisplaySalesMenuItem : MenuItem
+    //Display all "S" types for selected project
     {
         private Project _project;
         private ProjectManager _manager;
@@ -232,6 +239,7 @@
     }
 
     class DisplayPurchasesMenu : MenuItem
+    //Display all "P" types for selected project
     {
         private Project _project;
         private ProjectManager _manager;
@@ -269,6 +277,7 @@
 
 
     class DisplayProjectSummaryMenu : MenuItem
+    //Excecutes "Summary" function for selected project
     {
         private Project _project;
         private ProjectManager _manager;
@@ -291,6 +300,7 @@
     }
 
     class PortfolioTransactionsSummaryMenuItem : MenuItem
+    //Development tool to check if all instances of a project are removed
     {
         private ProjectManager _manager;
 
@@ -315,6 +325,7 @@
 
     
     class PortfolioSummaryMenuItem : MenuItem
+    //Executes "Summary" once for each project, and "TotalSales", "TotalPurchase", "TaxRefund" and "Profit" on each object to accumulate a total for the portfolio
     {
         private ProjectManager _manager;
 
@@ -352,6 +363,7 @@
     }
 
     class AddPurchaseMenuItem : MenuItem
+    //Creates new "P" object for selected project
     {
         private Project _project;
         private ProjectManager _manager;
@@ -401,6 +413,7 @@
 
 
     class AddSaleMenuItem : MenuItem
+    //Creates new "S" object for selected project
     {
         private Project _project;
         private ProjectManager _manager;
@@ -450,6 +463,7 @@
     }
 
     class RemoveProjectsMenuItem : MenuItem
+    //Removes all instances of selected project
     {
         private Project _project;
         private ProjectManager _manager;
@@ -468,13 +482,6 @@
 
         public override void Select()
         {
-            for (int i = 0; i < _manager.Projects.Count; i++)
-            {
-                if (_project.ProjectID == _manager.Projects[i].ProjectID)
-                {
-                    _manager.Projects.RemoveAt(i);
-                }
-            }
 
             for (int i = 0; i < _manager.Projects.Count; i++)
             {
@@ -484,12 +491,19 @@
                 }
             }
 
-            //EXIT IF POSSIBLE
-
+            for (int i = 0; i < _manager.Projects.Count; i++)
+            {
+                if (_project.ProjectID == _manager.Projects[i].ProjectID)
+                {
+                    _manager.Projects.RemoveAt(i);
+                }
+            }
+            //Has to run twice to work, not sure why (FIND OUT IF POSSIBLE)
         }
     }
 
     class LoadTMLMenuItem : MenuItem
+    //Run TMLLoader for user input
     {
         private ProjectManager _manager;
 
@@ -520,6 +534,7 @@
     }
 
     class LoadTXTMenuItem : MenuItem
+    //Run TXTLoader for user input
     {
         private ProjectManager _manager;
 
@@ -552,6 +567,7 @@
    
 
     class NewBuildMenuItem : MenuItem
+    //Create new "L" project 
     {
         private ProjectManager _manager;
 
@@ -598,6 +614,8 @@
     }
 
     class RenovationMenuItem : MenuItem
+    //Create new "R" project 
+
     {
         private ProjectManager _manager;
 

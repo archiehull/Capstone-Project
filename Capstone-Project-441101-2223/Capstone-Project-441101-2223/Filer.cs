@@ -5,6 +5,7 @@ namespace Capstone_Project_441101_2223
      * University of Hull (Grey, Simon) - File Loading Strategies Lecture
      */
     public class Filer
+    //Loader list created, allows loaders to be registered and creates "Load" method to be abtracted in "FileLoader"
     {
         private Dictionary<string, FileLoader> _loaders = new Dictionary<string, FileLoader>();
 
@@ -34,6 +35,7 @@ namespace Capstone_Project_441101_2223
     }
 
     public abstract class FileLoader
+    //Abtract class for loader, Extension type must be declared, Filename must be passed through "Load" method, "Load" method must be writted
     {
         public string Extension
         {
@@ -51,6 +53,7 @@ namespace Capstone_Project_441101_2223
 
 
     public class TXTLoader : FileLoader
+    //Sets extension as "txt", reads comma seperated values from txt documents
     {
         public TXTLoader() : base("txt")
         {
@@ -62,11 +65,15 @@ namespace Capstone_Project_441101_2223
             
             string line;
 
+            //supposed to save repeated code with the error message (FIX IF POSSIBLE)
             bool loaded = true;
+
+            //Calls instance of Projects list (singleton)
             ProjectManager _manager = ProjectManager.GetInstance();
 
             bool fileExists = File.Exists(filename);
 
+            //Check if file exists
             if (!fileExists)
             {
                 Console.WriteLine("\n" + filename + " not found.\n");
@@ -76,12 +83,13 @@ namespace Capstone_Project_441101_2223
 
             using (StreamReader reader = new StreamReader(filename))
             {
-               
+               //check and read line by line
                 while ((line = reader.ReadLine()) != null)
                 {
-                    
+                    //split into array at each comma
                     string[] components = line.Split(',');
 
+                    //format check (3 comma seperated values on a line)
                     if (components.Length != 3)
                     {
                         Console.WriteLine("\nError: Line does not contain 3 components.\n");
@@ -94,6 +102,7 @@ namespace Capstone_Project_441101_2223
                     char charValue;
                     float floatValue;
 
+                    //check first value is an ID
                     if (!int.TryParse(components[0], out intValue))
                     {
                         Console.WriteLine("\nError: First component is not an integer.\n");
@@ -102,6 +111,7 @@ namespace Capstone_Project_441101_2223
                         break;
                     }
 
+                    //check second value is a typecode
                     if (!char.TryParse(components[1], out charValue))
                     {
                         Console.WriteLine("\nError: Second component is not a character.\n");
@@ -110,6 +120,7 @@ namespace Capstone_Project_441101_2223
                         break;
                     }
 
+                    //check third value is a transaction
                     if (!float.TryParse(components[2], out floatValue))
                     {
                         Console.WriteLine("\nError: Third component is not a float.\n");
@@ -119,17 +130,15 @@ namespace Capstone_Project_441101_2223
                     }
 
 
+                    //check if project is valid, then add
                     try
                     {
                         Project _project = new Project(int.Parse(components[0]), char.Parse(components[1]), float.Parse(components[2]));
-
-                        //Console.WriteLine(_project.ToString());
-
                         _manager.AddProject(_project);
                     }
+                    //error message for errors
                     catch { loaded = false;  Console.WriteLine($"\n{filename} encountered an error when loading, check project data and remove incomplete projects\n"); }
 
-                    //Console.WriteLine(filename + " loaded successfully");
                 }
 
                 if (loaded == true)
@@ -145,6 +154,7 @@ namespace Capstone_Project_441101_2223
     }
     
     public class TMLLoader : FileLoader
+
     {
         public TMLLoader() : base("tml")
         {
@@ -174,11 +184,9 @@ namespace Capstone_Project_441101_2223
                 {
 
                     char TypeCode =  ' ';
-                    //int ProjectID;
-                    //float Transaction;
-
-
+                   
                     //TYPECODE
+                    //Checks first letter of each line and assigns corresponding type code (not very robust) (FIX IF POSSIBLE)
                     if(line.StartsWith("L") | line.StartsWith("S") | line.StartsWith("P") | line.StartsWith("R"))
                     {
                         if (line.StartsWith("L")) { TypeCode = 'L'; }
@@ -200,6 +208,7 @@ namespace Capstone_Project_441101_2223
                     int endIndex = line.IndexOf(")");
 
                     if (startIndex == -1 || endIndex == -1)
+                    //Checks if brackets are present
                     {
                         Console.WriteLine("\nError: no brackets found in input string.\n");
                         Console.WriteLine($"\n{filename} encountered an error when loading, check project data and remove incomplete projects\n");
@@ -208,6 +217,7 @@ namespace Capstone_Project_441101_2223
                     }
 
                     if (startIndex != -1 && endIndex != -1 && endIndex > startIndex)
+                    //Reads value between brackets 
                     {
                         extractedValue = line.Substring(startIndex + 1, endIndex - startIndex - 1);
                         
@@ -221,13 +231,14 @@ namespace Capstone_Project_441101_2223
 
                     if (startIndex1 == -1 || endIndex1 == -1)
                     {
-                        Console.WriteLine("\nError: no brackets found in input string.\n");
+                        Console.WriteLine("\nError: Invalid Format\n");
                         Console.WriteLine($"\n{filename} encountered an error when loading, check project data and remove incomplete projects\n");
                         loaded = false;
                         break;
                     }
 
                     if (startIndex1 != -1 && endIndex1 != -1 && endIndex1 > startIndex1)
+                    //Checks value stored between "=" and ";"
                     {
                         extractedValue1 = line.Substring(startIndex1 + 1, endIndex1 - startIndex1 - 1);
                         
