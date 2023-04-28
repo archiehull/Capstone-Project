@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Diagnostics;
+
 namespace Capstone_Project_441101_2223
 {
     public class ProjectManager
@@ -63,7 +65,12 @@ namespace Capstone_Project_441101_2223
                 Console.WriteLine($"\nProject ID : {pProjectID} doesn't exist\n");
                 throw new Exception();
             }
-            else
+            else if (pTransaction < 0)
+            {
+                Console.WriteLine("\nError : Invalid Price");
+                throw new Exception();
+            }
+                else
             {
                 ProjectID = pProjectID;
                 TypeCode = pTypeCode;
