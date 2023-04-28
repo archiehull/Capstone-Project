@@ -8,6 +8,7 @@ namespace Capstone_Project_441101_2223
     public static class ConsoleHelpers
     {
         public static int GetIntegerInRange(int pMin, int pMax, string pMessage)
+        //Checks user input is appropriate in menus
         {
             if (pMin > pMax)
             {
@@ -51,6 +52,7 @@ namespace Capstone_Project_441101_2223
         public abstract void CreateMenu();
 
         public override void Select()
+        //Navigates to selected menu
         {
             IsActive = true;
             do
@@ -63,6 +65,7 @@ namespace Capstone_Project_441101_2223
         }
 
         public override string ToString()
+        //Numbers Menu entries
         {
             StringBuilder sb = new StringBuilder();
             sb.AppendLine(MenuText());
