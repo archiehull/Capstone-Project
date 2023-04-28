@@ -18,7 +18,8 @@
             {
                 _menuItems.Add(new SelectExistingProjectsMenu(_manager));
                 _menuItems.Add(new RemoveProjectsMenu(_manager));
-                _menuItems.Add(new PortfolioTransactionsSummaryMenuItem(_manager));
+                //DEVELOPER OPTION TO VIEW OPJECTS
+                //_menuItems.Add(new PortfolioTransactionsSummaryMenuItem(_manager));
                 _menuItems.Add(new PortfolioSummaryMenuItem(_manager));
             }
             _menuItems.Add(new LoadFromFileMenu(_manager));
