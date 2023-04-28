@@ -1,2 +1,5 @@
-﻿// See https://aka.ms/new-console-template for more information
-Console.WriteLine("Hello, World!");
+﻿using Capstone_Project_441101_2223;
+
+ProjectManager manager = ProjectManager.GetInstance();
+
+new ProjectManagerMenu(manager).Select();
