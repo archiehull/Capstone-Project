@@ -65,7 +65,7 @@ namespace Capstone_Project_441101_2223
             
             string line;
 
-            //supposed to save repeated code with the error message (FIX IF POSSIBLE)
+            //return false if loading error
             bool loaded = true;
 
             //Calls instance of Projects list (singleton)
@@ -93,7 +93,7 @@ namespace Capstone_Project_441101_2223
                     if (components.Length != 3)
                     {
                         Console.WriteLine("\nError: Line does not contain 3 components.\n");
-                        Console.WriteLine($"\n{filename} encountered an error when loading, check project data and remove incomplete projects\n");
+                       
                         loaded = false;
                         break;
                     }
@@ -106,7 +106,7 @@ namespace Capstone_Project_441101_2223
                     if (!int.TryParse(components[0], out intValue))
                     {
                         Console.WriteLine("\nError: First component is not an integer.\n");
-                        Console.WriteLine($"\n{filename} encountered an error when loading, check project data and remove incomplete projects\n");
+                        
                         loaded = false;
                         break;
                     }
@@ -115,7 +115,7 @@ namespace Capstone_Project_441101_2223
                     if (!char.TryParse(components[1], out charValue))
                     {
                         Console.WriteLine("\nError: Second component is not a character.\n");
-                        Console.WriteLine($"\n{filename} encountered an error when loading, check project data and remove incomplete projects\n");
+                        
                         loaded = false;
                         break;
                     }
@@ -124,8 +124,7 @@ namespace Capstone_Project_441101_2223
                     if (!float.TryParse(components[2], out floatValue))
                     {
                         Console.WriteLine("\nError: Third component is not a float.\n");
-                        Console.WriteLine($"\n{filename} encountered an error when loading, check project data and remove incomplete projects\n");
-                        loaded = false;
+                        
                         break;
                     }
 
@@ -137,13 +136,18 @@ namespace Capstone_Project_441101_2223
                         _manager.AddProject(_project);
                     }
                     //error message for errors
-                    catch { loaded = false;  Console.WriteLine($"\n{filename} encountered an error when loading, check project data and remove incomplete projects\n"); }
+                    catch { loaded = false;   }
 
                 }
 
                 if (loaded == true)
                 {
                     Console.WriteLine($"\n{filename} loaded successfully\n");
+                }
+                else
+                {
+                    
+                    Console.WriteLine($"\n{filename} encountered an error when loading, check project data and remove incomplete projects\n");
                 }
                 
 
@@ -230,6 +234,7 @@ namespace Capstone_Project_441101_2223
                     int endIndex1 = line.IndexOf(";");
 
                     if (startIndex1 == -1 || endIndex1 == -1)
+                    
                     {
                         Console.WriteLine("\nError: Invalid Format\n");
                         Console.WriteLine($"\n{filename} encountered an error when loading, check project data and remove incomplete projects\n");
@@ -238,7 +243,7 @@ namespace Capstone_Project_441101_2223
                     }
 
                     if (startIndex1 != -1 && endIndex1 != -1 && endIndex1 > startIndex1)
-                    //Checks value stored between "=" and ";"
+                        //Checks value stored between "=" and ";"
                     {
                         extractedValue1 = line.Substring(startIndex1 + 1, endIndex1 - startIndex1 - 1);
                         

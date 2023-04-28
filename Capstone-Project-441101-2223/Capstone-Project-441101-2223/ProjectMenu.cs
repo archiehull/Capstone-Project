@@ -18,7 +18,7 @@
             {
                 _menuItems.Add(new SelectExistingProjectsMenu(_manager));
                 _menuItems.Add(new RemoveProjectsMenu(_manager));
-                //_menuItems.Add(new PortfolioTransactionsSummaryMenuItem(_manager));
+                _menuItems.Add(new PortfolioTransactionsSummaryMenuItem(_manager));
                 _menuItems.Add(new PortfolioSummaryMenuItem(_manager));
             }
             _menuItems.Add(new LoadFromFileMenu(_manager));
@@ -52,6 +52,7 @@
                     _menuItems.Add(new RemoveProjectsMenuItem(project, _manager));
                 }
             }
+            _menuItems.Add(new RemoveAllMenuItem(_manager));
             _menuItems.Add(new ExitMenuItem(this));
         }
 
@@ -221,7 +222,7 @@
 
         public override void Select()
         {
-            int j = 0;
+            int j = 1;
            
             for (int i = 0; i < _manager.Projects.Count; i++)
             {
@@ -257,7 +258,7 @@
 
         public override void Select()
         {
-            int j = 0;
+            int j = 1;
 
             for (int i = 0; i < _manager.Projects.Count; i++)
             {
@@ -482,23 +483,49 @@
 
         public override void Select()
         {
+            //Repeat to account for resizing list
 
-            for (int i = 0; i < _manager.Projects.Count; i++)
+            for (int j = 0; j < 25; j++)
             {
-                if (_project.ProjectID == _manager.Projects[i].ProjectID)
+                for (int i = 0; i < _manager.Projects.Count; i++)
+                {
+                    if (_project.ProjectID == _manager.Projects[i].ProjectID)
+                    {
+                        _manager.Projects.RemoveAt(i);
+                    }
+                }
+            }
+   
+        }
+    }
+
+    class RemoveAllMenuItem : MenuItem
+    //Removes all instances of any projects
+    {
+        private ProjectManager _manager;
+
+        public RemoveAllMenuItem( ProjectManager manager)
+        {
+            _manager = manager;
+        }
+
+        public override string MenuText()
+        {
+            return "Remove All Projects";
+
+        }
+
+        public override void Select()
+        {
+            //Repeat to account for resizing list
+            for (int j = 0; j < 25; j++)
+            {
+                for (int i = 0; i < _manager.Projects.Count; i++)
                 {
                     _manager.Projects.RemoveAt(i);
                 }
             }
-
-            for (int i = 0; i < _manager.Projects.Count; i++)
-            {
-                if (_project.ProjectID == _manager.Projects[i].ProjectID)
-                {
-                    _manager.Projects.RemoveAt(i);
-                }
-            }
-            //Has to run twice to work, not sure why (FIND OUT IF POSSIBLE)
+            
         }
     }
 
